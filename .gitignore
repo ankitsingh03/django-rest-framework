@@ -1,0 +1,7 @@
+.vscode
+env
+deliveries.csv
+matches.csv
+db.sqlite3
+**/__pycache__
+__pycache__
