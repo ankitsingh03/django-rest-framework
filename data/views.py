@@ -1,96 +1,115 @@
 from django.shortcuts import render
-from rest_framework import status
-# from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from data.serializers import UmpireSerializers
-from data.models import Umpire
-from django.http import Http404
-# from django.views.decorators.csrf import csrf_exempt
+from data.serializers import UmpireSerializers, TeamSerializers, \
+    BatsmanSerializers, StackedSerializers
+from data.models import Umpire, Deliveries, Matches
+from django.db.models import Sum, Count
 
 
 def home(request):
-    data = {'data': 'cool'}
-    return render(request, 'home.html', data)
+    d = {'data': 'cool'}
+    return render(request, 'home.html', d)
 
 
-class DataList(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
+def prob1(request):
+    return render(request, 'prob1.html', {'data': 'prob-1'})
+
+
+def prob2(request):
+    return render(request, 'prob2.html', {'data': 'prob-2'})
+
+
+def prob3(request):
+    return render(request, 'prob3.html', {'data': 'prob-3'})
+
+
+def prob4(request):
+    return render(request, 'prob4.html', {'data': 'prob-4'})
+
+
+class Team(APIView):
     def get(self, request, format=None):
-        snippets = Umpire.objects.all()
-        serializer = UmpireSerializers(snippets, many=True)
+        data = Deliveries.objects.values('batting_team')\
+            .annotate(dsum=Sum('total_runs')).order_by('dsum').reverse()
+
+        serializer = TeamSerializers(data, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, form=None):
+        year = request.data['year']
+        top = int(request.data['top'])
+        print(request.data)
+
+        # SELECT batting_team, sum(total_runs) from Deliveries
+        # where matches_id in (1,2,3,4,5,6,......) group by batting_team
+        data = Deliveries.objects\
+            .filter(match_id__in=Matches.objects.filter(season=year))\
+            .values('batting_team').annotate(dsum=Sum('total_runs'))\
+            .order_by('dsum').reverse()[:top]
+
+        serializer = TeamSerializers(data, many=True)
         return Response(serializer.data)
 
 
-class DataDetail(APIView):
-    """
-    Retrieve, update or delete a snippet instance.
-    """
-    def get_object(self, pk):
-        try:
-            return Umpire.objects.get(pk=pk)
-        except Umpire.DoesNotExist:
-            raise Http404
+class Batsman(APIView):
+    def get(self, request, form=None):
+        data = Deliveries.objects.values('batsman')\
+            .annotate(runs=Sum('batsman_runs'))\
+            .order_by('runs').reverse()[:10]
 
-    def get(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        serializer = UmpireSerializers(snippet)
+        serializer = BatsmanSerializers(data, many=True)
         return Response(serializer.data)
 
-# function based view
+    def post(self, request, form=None):
+        year = request.data['year']
+        top = request.data['top']
+        team = request.data['team']
+        # team = "Royal Challengers Bangalore"
 
-# @api_view(['GET', 'POST'])
-# def data_list(request):
-#     """
-#     List all code snippets, or create a new snippet.
-#     """
-#     if request.method == 'GET':
-#         snippets = Umpire.objects.all()
-#         serializer = UmpireSerializers(snippets, many=True)
-#         return Response(serializer.data)
+        if year == 'all' and team == 'all':
+            data = Deliveries.objects.values('batsman')\
+                .annotate(runs=Sum('batsman_runs'))\
+                .order_by('runs').reverse()[:top]
 
+        elif year == 'all' and team != 'all':
+            data = Deliveries.objects.values('batsman')\
+                .filter(batting_team=team)\
+                .annotate(runs=Sum('batsman_runs'))\
+                .order_by('runs').reverse()[:top]
 
-# @api_view(['GET', 'PUT', 'DELETE'])
-# def data_detail(request, pk):
-#     """
-#     Retrieve, update or delete a code snippet.
-#     """
-#     try:
-#         snippet = Umpire.objects.get(pk=pk)
-#     except Umpire.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND)
+        elif year != 'all' and team == 'all':
+            id = [i.id for i in Matches.objects.filter(season=year).all()]
+            data = Deliveries.objects.filter(match_id__in=id)\
+                .values('batsman').annotate(runs=Sum('batsman_runs'))\
+                .order_by('runs').reverse()[:top]
 
-#     if request.method == 'GET':
-#         serializer = UmpireSerializers(snippet)
-#         return Response(serializer.data)
+        else:
+            id = [i.id for i in Matches.objects.filter(season=year).all()]
+            data = Deliveries.objects.filter(match_id__in=id)\
+                .values('batsman').annotate(runs=Sum('batsman_runs'))\
+                .filter(batting_team=team).order_by('runs').reverse()[:top]
 
-
-# simple preset of data
-
-# @csrf_exempt
-# def data_list(request):
-#     """
-#     List all code snippets, or create a new snippet.
-#     """
-#     if request.method == 'GET':
-#         umpire = Umpire.objects.all()
-#         serializer = UmpireSerializers(umpire, many=True)
-#         return JsonResponse(serializer.data, safe=False)
+        serializer = BatsmanSerializers(data, many=True)
+        return Response(serializer.data)
 
 
-# @csrf_exempt
-# def data_detail(request, pk):
-#     """
-#     Retrieve, update or delete a code snippet.
-#     """
-#     try:
-#         umpire = Umpire.objects.get(pk=pk)
-#     except Umpire.DoesNotExist:
-#         return HttpResponse(status=404)
+class Umpires(APIView):
+    def get(self, request, form=None):
+        umpire = Umpire.objects.values('nationality')\
+            .annotate(total=Count('nationality'))
+        serializer = UmpireSerializers(umpire, many=True)
+        return Response(serializer.data)
 
-#     if request.method == 'GET':
-#         # umpire = Umpire.objects.get(pk=pk)
-#         serializer = UmpireSerializers(umpire)
-#         return JsonResponse(serializer.data)
+    def post(self, request, format=None):
+        name = request.data['umpire']
+        # name = ["New Zealand", "Australia"]
+        data = Umpire.objects.values('nationality')\
+            .filter(nationality__in=name).annotate(total=Count('nationality'))\
+            .order_by('total').reverse()
+        serializer = UmpireSerializers(data, many=True)
+        return Response(serializer.data)
+
+
+class Stacked(APIView):
+    pass
