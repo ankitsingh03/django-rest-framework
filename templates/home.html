@@ -1,14 +1,15 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
+    <link rel="stylesheet" href="../static/prob1.css">
+    <title>Document</title>
 </head>
 <body>
-    {{ data }}
-    <script src="../static/plot.js"></script>
-
+    <a href="{% url 'prob1' %}" class="button button1">Problem 1</a>
+    <a href="{% url 'prob2' %}" class="button button2">Problem 2</a>
+    <a href="{% url 'prob3' %}" class="button button1">Problem 3</a>
+    <a href="{% url 'prob4' %}" class="button button2">Problem 4</a>
 </body>
 </html>

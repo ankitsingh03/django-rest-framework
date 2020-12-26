@@ -1,9 +1,10 @@
 from django.urls import path
 from . import views
 from rest_framework.urlpatterns import format_suffix_patterns
+# from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
-    path('', views.home),
+    path('', views.home, name='home'),
     path('prob1/', views.prob1, name='prob1'),
     path('prob2/', views.prob2, name='prob2'),
     path('prob3/', views.prob3, name='prob3'),

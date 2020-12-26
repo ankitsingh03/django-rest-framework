@@ -1,9 +1,10 @@
+<!-- {% load static%} -->
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="static/prob1.css.css">
+        <link rel="stylesheet" href="../static/prob1.css">
             
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -12,6 +13,7 @@
         <title>Plot</title>
     </head>
     <body>
+        {% include 'home.html' %}
         {% block content %} {% endblock content %}
     </body>
 </html>

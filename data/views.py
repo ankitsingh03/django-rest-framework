@@ -5,11 +5,11 @@ from data.serializers import UmpireSerializers, TeamSerializers, \
     BatsmanSerializers, StackedSerializers
 from data.models import Umpire, Deliveries, Matches
 from django.db.models import Sum, Count
+from django.views.decorators.csrf import csrf_exempt
 
 
 def home(request):
-    d = {'data': 'cool'}
-    return render(request, 'home.html', d)
+    return render(request, 'home.html', {'data': 'cool'})
 
 
 def prob1(request):
@@ -63,9 +63,10 @@ class Batsman(APIView):
 
     def post(self, request, form=None):
         year = request.data['year']
-        top = request.data['top']
+        top = int(request.data['top'])
         team = request.data['team']
         # team = "Royal Challengers Bangalore"
+        print(request.data)
 
         if year == 'all' and team == 'all':
             data = Deliveries.objects.values('batsman')\
@@ -103,6 +104,7 @@ class Umpires(APIView):
 
     def post(self, request, format=None):
         name = request.data['umpire']
+        print(request.data)
         # name = ["New Zealand", "Australia"]
         data = Umpire.objects.values('nationality')\
             .filter(nationality__in=name).annotate(total=Count('nationality'))\
@@ -112,4 +114,21 @@ class Umpires(APIView):
 
 
 class Stacked(APIView):
-    pass
+    def get(self, request, form=None):
+        syear = 2017
+        # data = Matches.objects.all()
+        data1 = Matches.objects.values('season', 'team1')\
+            .annotate(total=Count('team1') + Matches.objects.values('season', 'team2').filter().annotate(total=Count('team2')))
+        print(data1)
+
+
+        data1 = Matches.objects.values('season', 'team1').annotate(total=Count('team1')).all()
+        print([i['total'] for i in data1])
+        print([i for i in data1])
+        data2 = Matches.objects.values('season', 'team2').annotate(total=Count('team2')).all()
+        # print(data2)
+        print(data1)
+        # print(data2)
+        data = [{'data': 'ankit'}, {'data': 'singh'}]
+        serializer = StackedSerializers(data, many=True)
+        return Response(serializer.data)

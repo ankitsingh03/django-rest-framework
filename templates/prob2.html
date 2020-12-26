@@ -1,1 +1,39 @@
-{{ data }}
+{% extends 'layout.html' %}
+{% block content %} 
+    <div>{{ data }}</div>
+    <form>
+        Select year:
+        <select id="dd-1">
+            <option>all</option>
+          <option>2017</option>
+          <option>2008</option>
+          <option>2009</option>
+          <option>2010</option>
+        </select>
+
+        Select team name:
+        <select id="dd-2">
+            <option>all</option>
+          <option>Royal Challengers Bangalore</option>
+          <option>Rising Pune Supergiant</option>
+          <option>Kolkata Knight Riders</option>
+          <option>Kings XI Punjab</option>
+        </select>
+    
+        Select top rank:
+        <select id="dd-3">
+          <option>2</option>
+          <option>5</option>
+          <option>7</option>
+          <option>10</option>
+        </select>
+        <br><br>
+    
+        <input type="button" onclick="getOption2()" value="Click Me!">
+    </form>
+        <p id="demo"></p>
+        <div class="box" id="container_2"></div>
+        <p id="demo1"></p>
+    
+        <script src="../static/plot.js"></script>
+{% endblock content %}
