@@ -6,6 +6,7 @@ from data.serializers import UmpireSerializers, TeamSerializers, \
 from data.models import Umpire, Deliveries, Matches
 from django.db.models import Sum, Count
 from django.views.decorators.csrf import csrf_exempt
+from collections import defaultdict
 
 
 def home(request):
@@ -115,20 +116,27 @@ class Umpires(APIView):
 
 class Stacked(APIView):
     def get(self, request, form=None):
-        syear = 2017
-        # data = Matches.objects.all()
-        data1 = Matches.objects.values('season', 'team1')\
-            .annotate(total=Count('team1') + Matches.objects.values('season', 'team2').filter().annotate(total=Count('team2')))
-        print(data1)
 
+        year = [2017,2008, 2009]
+        team = ["Chennai Super Kings"]
+        team1 = Matches.objects.values('season', 'team1').filter(season__in=year, team1__in = team).annotate(total=Count('team1')).order_by('season','team1')
+        team2 = Matches.objects.values('season', 'team2').filter(season__in=year, team2__in = team).annotate(total=Count('team2')).order_by('season','team2').values('total')
 
-        data1 = Matches.objects.values('season', 'team1').annotate(total=Count('team1')).all()
-        print([i['total'] for i in data1])
-        print([i for i in data1])
-        data2 = Matches.objects.values('season', 'team2').annotate(total=Count('team2')).all()
-        # print(data2)
-        print(data1)
-        # print(data2)
-        data = [{'data': 'ankit'}, {'data': 'singh'}]
-        serializer = StackedSerializers(data, many=True)
+        for index, i in enumerate(team1):
+            i['total'] = i['total'] + team2[index]['total']
+        serializer = StackedSerializers(team1, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, form=None):
+        year = request.data['year']
+        team = request.data['team']
+
+        print(year)
+        print(team)
+        team1 = Matches.objects.values('season', 'team1').filter(season__in=year, team1__in = team).annotate(total=Count('team1')).order_by('season','team1')
+        team2 = Matches.objects.values('season', 'team2').filter(season__in=year, team2__in = team).annotate(total=Count('team2')).order_by('season','team2').values('total')
+
+        for index, i in enumerate(team1):
+            i['total'] = i['total'] + team2[index]['total']
+        serializer = StackedSerializers(team1, many=True)
         return Response(serializer.data)

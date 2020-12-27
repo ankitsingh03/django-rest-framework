@@ -17,12 +17,14 @@ class BatsmanSerializers(serializers.Serializer):
     # batting_team = serializers.CharField(max_length=50)
 
 
-# class StackedSerializers(serializers.Serializer):
-    # season = serializers.IntegerField()
-    # team1 = serializers.CharField(max_length=50)
-    # total = serializers.IntegerField()
+class StackedSerializers(serializers.Serializer):
+    season = serializers.IntegerField()
+    team1 = serializers.CharField(max_length=50)
+    total = serializers.IntegerField()
     # team2 = serializers.CharField(max_length=50)
 
 
-class StackedSerializers(serializers.Serializer):
-    data = serializers.CharField(max_length=50)
+# class StackedSerializers(serializers.Serializer):
+    # data = serializers.CharField(max_length=50)
+    # year = serializers.IntegerField()
+    # team_data = serializers.CharField(max_length=50)

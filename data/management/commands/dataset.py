@@ -27,7 +27,7 @@ class Command(BaseCommand):
             csv_reader = csv.reader(csv_file)
             csv_reader.__next__()
             data = [Deliveries(
-                        match_id = line[0],
+                        match_id=line[0],
                         batting_team=line[2],
                         batsman=line[6],
                         batsman_runs=line[-6],
