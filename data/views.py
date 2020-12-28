@@ -29,6 +29,10 @@ def prob4(request):
 
 class Team(APIView):
     def post(self, request, form=None):
+        '''
+        Filtering data, by year of the total runs \
+        scored by each teams over the history of IPL.
+        '''
         year = request.data['year']
         top = request.data['top']
 
@@ -73,6 +77,10 @@ class Team(APIView):
 
 class Batsman(APIView):
     def post(self, request, form=None):
+        '''
+        Filtering data, by year and by team of the total runs \
+        scored by every batsman playing over the history of IPL.
+        '''
         year = request.data['year']
         top = int(request.data['top'])
         team = request.data['team']
@@ -106,6 +114,9 @@ class Batsman(APIView):
 
 class Umpires(APIView):
     def post(self, request, format=None):
+        '''
+        Filtering data, number of umpires by in IPL by country.
+        '''
         name = request.data['umpire']
 
         data = Umpire.objects.values('nationality')\
@@ -118,6 +129,9 @@ class Umpires(APIView):
 
 class Stacked(APIView):
     def post(self, request, form=None):
+        '''
+        Filtering data, number of games played by team by season.
+        '''
         year = request.data['year']
         team = request.data['team']
 
@@ -130,6 +144,7 @@ class Stacked(APIView):
             .annotate(total=Count('team2'))\
             .order_by('season', 'team2').values('total')
 
+        # Adding number of matches played of team one and team two.
         for index, i in enumerate(team1):
             i['total'] = i['total'] + team2[index]['total']
 

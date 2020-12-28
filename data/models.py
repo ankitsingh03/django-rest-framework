@@ -1,16 +1,12 @@
 from django.db import models
 
 
-# Create your models here.
 class Umpire(models.Model):
     name = models.CharField(max_length=50)
     nationality = models.CharField(max_length=50)
     first_officiated = models.IntegerField()
     last_officiated = models.IntegerField()
     Number_of_Matches = models.IntegerField()
-
-    # def __str__(self):
-    #     return self.name
 
 
 class Deliveries(models.Model):
