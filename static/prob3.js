@@ -55,7 +55,8 @@ function getSelectedCheckboxValues(name) {
         },
         series: [{
             name: 'Country',
-            data: count_umpire
+            data: count_umpire,
+            pointWidth: 40
         }],
         responsive: {
             rules: [{

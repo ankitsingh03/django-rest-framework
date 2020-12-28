@@ -47,7 +47,8 @@ function getOption1() {
               },
               series: [{
                   name: 'Teams',
-                  data: runs
+                  data: runs,
+                  pointWidth: 40
               }],
               responsive: {
                   rules: [{

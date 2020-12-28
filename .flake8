@@ -1,2 +1,2 @@
 [flake8]
-exclude = env, data/migrations, data/tests.py
+exclude = env, data/migrations, data/tests.py, ankit, ipl/settings.py

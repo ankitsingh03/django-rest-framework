@@ -45,7 +45,8 @@ function getOption2(){
     },
     series: [{
         name: 'Batsman Runs',
-        data: runs
+        data: runs,
+        pointWidth: 40
     }],
     responsive: {
         rules: [{
