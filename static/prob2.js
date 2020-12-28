@@ -27,10 +27,10 @@ function getOption2(){
         type: 'column'
     },
     title: {
-        text: 'Top batsman for Royal Challengers Bangalore'
+        text: 'Top batsman'
     },
     subtitle: {
-        text: 'plot the total runs scored by every batsman playing for Royal Challengers Bangalore over the history of IPL.'
+        text: 'Plot the total runs scored by all or by teams over the history of IPL.'
     },
     xAxis: {
         categories: batsman
@@ -44,7 +44,7 @@ function getOption2(){
         }
     },
     series: [{
-        name: 'Batsman Playing for Royal Challengers Bangalore',
+        name: 'Batsman Runs',
         data: runs
     }],
     responsive: {

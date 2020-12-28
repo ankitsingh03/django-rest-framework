@@ -24,8 +24,6 @@ function getSelectedCheckboxValues(name) {
         })
         .then(response => response.json())
         .then(data => {
-            document.getElementById("demo1").innerHTML = JSON.stringify(data);
-            console.log(data);
             let country = []
             let count_umpire = []
             for (var i of data){
