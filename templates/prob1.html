@@ -2,11 +2,12 @@
 
     {% block content %}
 
-<h2>{{ data }}</h2>
-
-<form>
+<!-- <h2>{{ data }}</h2> -->
+  <form class="fit">
+    <h2>Total runs scored by team</h2>
     Select year:
-    <select id="mySelect1">
+    <select class="size" id="mySelect1">
+      <option>all</option>
       <option>2017</option>
       <option>2008</option>
       <option>2009</option>
@@ -14,19 +15,20 @@
     </select>
 
     Select top rank:
-    <select id="mySelect2">
-      <option>2</option>
-      <option>5</option>
-      <option>7</option>
+    <select class="size" id="mySelect2">
+      <option>all</option>
       <option>10</option>
+      <option>5</option>
+      <option>3</option>
     </select>
-    <br><br>
+    <input class="size" type="button" onclick="getOption1()" value="Get Graph">
+  </form>
 
-    <input type="button" onclick="getOption1()" value="Click Me!">
-</form>
     <p id="demo"></p>
-    <div class="box" id="container_1"></div>
+    <div class="container">
+      <div id="container_1"></div>
+    </div>
     <p id="demo1"></p>
 
-    <script src="../static/plot.js"></script>
+    <script src="../static/prob1.js"></script>
     {% endblock content %}

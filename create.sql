@@ -1,2 +1,2 @@
-create role djangoapi login superuser password 'djangoapi';
-create database djangoapidb owner djangoapi;
+create role dapi login superuser password 'dapi';
+create database dapidb owner dapi;

@@ -1,23 +1,26 @@
 {% extends 'layout.html' %}
 {% block content %} 
-<div>{{ data }}</div>
+    <div class="fit">
+        <h2>Number of umpires by in IPL by country</h2>
+        <p>Select Umpire:</p>
+        <input type="checkbox" name="color" value="India"> India
+        <input type="checkbox" name="color" value="Australia"> Australia
+        <input type="checkbox" name="color" value="West Indies"> West Indies
+        <input type="checkbox" name="color" value="New Zealand"> New Zealand
+        <input type="checkbox" name="color" value="South Africa"> South Africa
+        <input type="checkbox" name="color" value="Sri Lanka"> Sri Lanka
+        <input type="checkbox" name="color" value="Pakistan"> Pakistan
+        <input type="checkbox" name="color" value="England"> England
+        <input type="checkbox" name="color" value="Zimbabwe"> Zimbabwe
+        <br><br>
+        <button class="size" id="btn">Get Graph</button>
+
+    </div>
     
-    <p>Select your favorite colors:</p>
-
-    <input type="checkbox" name="color" value="India"> India
-    <input type="checkbox" name="color" value="Australia"> Australia
-    <input type="checkbox" name="color" value="West Indies"> West Indies
-    <input type="checkbox" name="color" value="New Zealand"> New Zealand
-    <input type="checkbox" name="color" value="South Africa"> South Africa
-    <input type="checkbox" name="color" value="Sri Lanka"> Sri Lanka
-    <input type="checkbox" name="color" value="Pakistan"> Pakistan
-    <input type="checkbox" name="color" value="England"> England
-    <input type="checkbox" name="color" value="Zimbabwe"> Zimbabwe
-
-    <button id="btn">Get Selected Colors</button>
-
     <p id="demo1"></p>
-    <div class="box" id="container_3"></div>
-
-    <script src="/static/plot.js"></script>
+    <div class="container">
+        <div class="box" id="container_3"></div>
+    </div>
+   
+    <script src="/static/prob3.js"></script>
 {% endblock content %}

@@ -1,8 +1,8 @@
 {% extends 'layout.html' %}
 {% block content %}
-    {{ data }}
-
-    <p>Select Year:</p>
+    <div class="fit">
+        <h2>Chart of matches played by team by season</h2>
+        <p> Select Year:</p>
 
     <input type="checkbox" name="year" value="2008"> 2008
     <input type="checkbox" name="year" value="2009"> 2009
@@ -32,8 +32,11 @@
     <input type="checkbox" name="name" value="Royal Challengers Bangalore"> Royal Challengers Bangalore
     <input type="checkbox" name="name" value="Sunrisers Hyderabad"> Sunrisers Hyderabad
 
+        <br><br>
+    <button class="size" id="btn1">Get Graph</button>
 
-    <button id="btn1">Get Selected Colors</button>
+    </div>
+    
 
     <p id="demo1"></p>
 
@@ -41,87 +44,6 @@
         <div id="container_4"></div>
     </figure>
 
-
-    <!-- <script src="../static/plot.js"></script> -->
-    <script>
-
-
-    function getSelectedCheckboxValues(name) {
-        // code help https://www.javascripttutorial.net/javascript-dom/javascript-checkbox/
-        const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
-        let values = [];
-        checkboxes.forEach((checkbox) => {
-            values.push(checkbox.value);
-        });
-        return values;
-        }
-
-        const btn = document.querySelector('#btn1');
-        btn.addEventListener('click', (event) => {
-        
-        let value = {
-            'year': getSelectedCheckboxValues('year'),
-            'team': getSelectedCheckboxValues('name')
-        } 
-        fetch('http://127.0.0.1:8000/stacked/', {
-        method: "POST",
-        body: JSON.stringify(value),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
-        })
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById("demo1").innerHTML = JSON.stringify(data);
-          console.log(data)
-          let year = value.year
-          year.sort()
-          console.log(year) 
-
-            let total_data = []
-            for (i of value.team){
-                let list = []
-                for (j of year){
-                    let check = 0
-                    for (k of data){
-                        if (i == k.team1 && j == k.season){
-                            check = k.total;
-                            console.log('hello');
-                            break
-                        }
-                    }
-                    list.push(check)
-                }
-                total_data.push({"name": i, "data": list})
-            }
-            
-            console.log(total_data)
-            Highcharts.chart('container_4', {
-            chart: {
-                type: 'bar'
-            },
-            title: {
-                text: 'Stacked chart of matches played by team by season'
-            },
-            xAxis: {
-                categories: year
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Matches Played by Team'
-                }
-            },
-            legend: {
-                reversed: true
-            },
-            plotOptions: {
-                series: {
-                    stacking: 'normal'
-                }
-            },
-            series: total_data
-            });
-        });
-        });
-    </script>
+    <script src="../static/prob4.js"></script>
     
 {% endblock content %}

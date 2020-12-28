@@ -1,2 +1,2 @@
-drop database djangoapidb;
-drop role djangoapi;
+drop database dapidb;
+drop role dapi;

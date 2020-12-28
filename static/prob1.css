@@ -2,7 +2,7 @@
 #container_1 {
 	height: 500px;
 	min-width: 310px;
-    max-width: 800px;
+    max-width: 1000px;
     width: 100%;
 }
 
@@ -10,7 +10,7 @@
 #container_2 {
 	height: 500px;
 	min-width: 310px;
-    max-width: 800px;
+    max-width: 1000px;
     width: 100%;
 }
 
@@ -18,7 +18,7 @@
 #container_3 {
 	height: 500px;
 	min-width: 310px;
-    max-width: 800px;
+    max-width: 1000px;
     width: 100%;
 }
 
@@ -71,6 +71,7 @@
 
 .box {
     position: relative;
+    justify-content: center;
     color: white;
     margin: 3em 6em;
     padding: 1em;
@@ -86,9 +87,31 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
+    margin: 4px 0px;
     cursor: pointer;
   }
   
   .button1 {background-color: #4CAF50;} /* Green */
   .button2 {background-color: #008CBA;} /* Blue */
+
+  .fit {
+      text-align: center;
+      padding-left: 11em;
+      padding-right: 11em;
+      font-size: 18px;
+  }
+
+  @media only screen and (max-width: 1200px) {
+    .fit {
+        padding-left: 3em;
+        padding-right: 3em;
+    }
+  }
+
+.size {
+    font-size: 18px;
+    margin-left: 10px;
+    margin-right: 10px;
+    /* margin-top: 5px; */
+    /* margin-bottom: 10px; */
+}

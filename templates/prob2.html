@@ -1,9 +1,9 @@
 {% extends 'layout.html' %}
 {% block content %} 
-    <div>{{ data }}</div>
-    <form>
+    <form class="fit">
+      <h2>Top batsman by year and by team</h2>
         Select year:
-        <select id="dd-1">
+        <select class="size" id="dd-1">
             <option>all</option>
           <option>2017</option>
           <option>2008</option>
@@ -12,7 +12,7 @@
         </select>
 
         Select team name:
-        <select id="dd-2">
+        <select class="size" id="dd-2">
             <option>all</option>
           <option>Royal Challengers Bangalore</option>
           <option>Rising Pune Supergiant</option>
@@ -21,19 +21,19 @@
         </select>
     
         Select top rank:
-        <select id="dd-3">
-          <option>2</option>
-          <option>5</option>
-          <option>7</option>
+        <select class="size" id="dd-3">
+          <option>15</option>
           <option>10</option>
+          <option>5</option>
+          <option>3</option>
         </select>
         <br><br>
     
-        <input type="button" onclick="getOption2()" value="Click Me!">
+        <input class="size" type="button" onclick="getOption2()" value="Get Graph">
     </form>
-        <p id="demo"></p>
-        <div class="box" id="container_2"></div>
-        <p id="demo1"></p>
+        <div class="container">
+          <div id="container_2"></div>
+        </div>
     
-        <script src="../static/plot.js"></script>
+        <script src="../static/prob2.js"></script>
 {% endblock content %}
